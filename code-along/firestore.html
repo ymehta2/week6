@@ -8,7 +8,9 @@
 </head>
 <body class="bg-yellow-50">
   
-  <div class="w-96 mx-auto p-16">
+  <h1 class="text-2xl font-bold text-yellow-500 text-center w-full p-10">YASH'S TO DO LIST</h1>
+
+  <div class="w-96 mx-auto p-16 py-8">
     <div class="todos w-full">
       <!-- JavaScript puts stuff here -->
     </div>
@@ -20,6 +22,27 @@
   </div>
 
   <!-- Put the Firebase config here -->
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-app.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#available-libraries -->
+      <script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-firestore.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyAvxF37Ihx9TmXbES_H-22jsCeeQoA5ga8",
+      authDomain: "kiei-451-cb972.firebaseapp.com",
+      projectId: "kiei-451-cb972",
+      storageBucket: "kiei-451-cb972.appspot.com",
+      messagingSenderId: "264975974212",
+      appId: "1:264975974212:web:4f2476f2995fa68b2a2111"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
   
   <script src="firestore.js"></script>
 </body>

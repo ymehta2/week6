@@ -5,7 +5,7 @@
 // your new key right away.
 
 // For this exercise, we'll be using the "now playing" API endpoint
-// https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}&language=en-US
+// https://api.themoviedb.org/3/movie/now_playing?api_key=${883c2c519468a9f5df526f211693ca9d}&language=en-US
 
 // Note: image data returned by the API will only give you the filename;
 // prepend with `https://image.tmdb.org/t/p/w500/` to get the 
@@ -17,6 +17,12 @@ window.addEventListener('DOMContentLoaded', async function(event) {
   // movies. Write the contents of this array to the JavaScript
   // console to ensure you've got good data
   // ⬇️ ⬇️ ⬇️
+      
+      let URL = await fetch ("https://api.themoviedb.org/3/movie/now_playing?api_key=883c2c519468a9f5df526f211693ca9d&language=en-US")
+      let json = await URL.json()
+      let movies = json.results
+
+      let db = firebase.firestore()
 
   // ⬆️ ⬆️ ⬆️ 
   // End Step 1
@@ -34,6 +40,48 @@ window.addEventListener('DOMContentLoaded', async function(event) {
   // </div>
   // ⬇️ ⬇️ ⬇️
 
+      for (i=0; i<movies.length; i++) {
+        let movieID = movies[i].id
+        let movieName = movies[i].original_title
+        let movieDescription = movies[i].overview
+
+        let querySnapshot = await db.collection('watched').doc(`${movieID}`).get()
+
+        if (querySnapshot.data()){
+          
+          document.querySelector(".movies").insertAdjacentHTML(`beforeend`, `
+            <div class="movie-${movieID} w-1/5 p-4 opacity-20">
+              <h1 class="font-bold text-xl text-white">${movieName}</h1>
+              <img src="https://image.tmdb.org/t/p/w500/${movies[i].poster_path}" class="w-full">
+              <a href="#" class="watched-button block text-center text-white bg-green-500 mt-4 px-4 py-2 rounded">I've watched this!</a>
+            </div>
+          `)
+
+        } else {
+          
+          document.querySelector(".movies").insertAdjacentHTML(`beforeend`, `
+            <div class="movie-${movieID} w-1/5 p-4">
+              <h1 class="font-bold text-xl text-white">${movieName}</h1>
+              <img src="https://image.tmdb.org/t/p/w500/${movies[i].poster_path}" class="w-full">
+              <a href="#" class="watched-button block text-center text-white bg-green-500 mt-4 px-4 py-2 rounded">I've watched this!</a>
+            </div>
+          `)
+        }
+
+        let watchButton = document.querySelector(`.movie-${movieID} .watched-button`)
+        watchButton.addEventListener("click", async function(event){
+          event.preventDefault()
+          document.querySelector(`.movie-${movieID}`).classList.add('opacity-20')
+                    
+          let docRef = await db.collection('watched').doc(`${movieID}`).set({ 
+              
+          })
+
+        })
+
+      }
+
+     
   // ⬆️ ⬆️ ⬆️ 
   // End Step 2
 
@@ -48,7 +96,7 @@ window.addEventListener('DOMContentLoaded', async function(event) {
   //   the movie is watched. Use .classList.remove('opacity-20')
   //   to remove the class if the element already contains it.
   // ⬇️ ⬇️ ⬇️
-
+      
   // ⬆️ ⬆️ ⬆️ 
   // End Step 3
 
